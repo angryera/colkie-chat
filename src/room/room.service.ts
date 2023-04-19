@@ -4,14 +4,15 @@ import { Injectable } from '@nestjs/common';
 import { Room } from './interfaces/room.interface';
 import { User } from './interfaces/user.interface';
 import { Message } from './interfaces/message.interface';
-import { CreateRoomDto } from './dto/create-room.dto';
-import { AddUserDto } from './dto/add-user.dto';
-import { SendMessageDto } from './dto/send-message.dto';
+import { CreateRoomDto } from './dtos/create-room.dto';
+import { AddUserDto } from './dtos/add-user.dto';
+import { SendMessageDto } from './dtos/send-message.dto';
 
 @Injectable()
 export class RoomService {
   private readonly rooms: Room[] = [];
 
+  // Create a new room
   createRoom(createRoomDto: CreateRoomDto): Room {
     const room: Room = {
       id: this.rooms.length.toString(),
@@ -23,6 +24,7 @@ export class RoomService {
     return room;
   }
 
+  // Add a user to a room
   addUserToRoom(roomId: string, addUserDto: AddUserDto): User {
     const room = this.rooms.find((room) => room.id === roomId);
     const user: User = {
@@ -33,6 +35,7 @@ export class RoomService {
     return user;
   }
 
+  // Send a message to a room
   sendMessageToRoom(roomId: string, sendMessageDto: SendMessageDto): Message {
     const room = this.rooms.find((room) => room.id === roomId);
     const message: Message = {
@@ -45,6 +48,7 @@ export class RoomService {
     return message;
   }
 
+  // Get the latest messages from a room
   getLatestRoomMessages(roomId: string): Message[] {
     const room = this.rooms.find((room) => room.id === roomId);
     if (room) {
