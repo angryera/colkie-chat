@@ -27,25 +27,29 @@ export class RoomService {
   // Add a user to a room
   addUserToRoom(roomId: string, addUserDto: AddUserDto): User {
     const room = this.rooms.find((room) => room.id === roomId);
-    const user: User = {
-      id: room.users.length.toString(),
-      name: addUserDto.name,
-    };
-    room.users.push(user);
-    return user;
+    if (room) {
+      const user: User = {
+        id: room.users.length.toString(),
+        name: addUserDto.name,
+      };
+      room.users.push(user);
+      return user;
+    }
   }
 
   // Send a message to a room
   sendMessageToRoom(roomId: string, sendMessageDto: SendMessageDto): Message {
     const room = this.rooms.find((room) => room.id === roomId);
-    const message: Message = {
-      id: room.messages.length.toString(),
-      content: sendMessageDto.content,
-      senderId: sendMessageDto.senderId,
-      createdAt: new Date(),
-    };
-    room.messages.push(message);
-    return message;
+    if (room) {
+      const message: Message = {
+        id: room.messages.length.toString(),
+        content: sendMessageDto.content,
+        senderId: sendMessageDto.senderId,
+        createdAt: new Date(),
+      };
+      room.messages.push(message);
+      return message;
+    }
   }
 
   // Get the latest messages from a room

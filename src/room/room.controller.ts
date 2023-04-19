@@ -1,12 +1,14 @@
 // room.controller.ts
 
 import { Controller, Post, Body, Param, Get } from '@nestjs/common';
+import { ApiTags, ApiOkResponse } from '@nestjs/swagger';
 import { AddUserDto } from './dtos/add-user.dto';
 import { CreateRoomDto } from './dtos/create-room.dto';
 import { SendMessageDto } from './dtos/send-message.dto';
 import { RoomService } from './room.service';
 
 @Controller('room')
+@ApiTags('room')
 export class RoomController {
   constructor(private readonly roomService: RoomService) {}
 
@@ -15,6 +17,7 @@ export class RoomController {
   // Body: { name: string }
   // Returns the newly created room
   @Post()
+  @ApiOkResponse({ description: 'Room created successfully' })
   createRoom(@Body() createRoomDto: CreateRoomDto) {
     return this.roomService.createRoom(createRoomDto);
   }
@@ -25,6 +28,7 @@ export class RoomController {
   // Body: { name: string }
   // Returns the newly added user
   @Post(':roomId/users')
+  @ApiOkResponse({ description: 'User added successfully' })
   addUserToRoom(
     @Param('roomId') roomId: string,
     @Body() addUserDto: AddUserDto,
@@ -38,6 +42,7 @@ export class RoomController {
   // Body: { content: string, senderId: string }
   // Returns the newly sent message
   @Post(':roomId/messages')
+  @ApiOkResponse({ description: 'Message sent successfully' })
   sendMessageToRoom(
     @Param('roomId') roomId: string,
     @Body() sendMessageDto: SendMessageDto,
@@ -50,6 +55,7 @@ export class RoomController {
   // Params: { roomId: string }
   // Returns an array of the latest messages in the room
   @Get(':roomId/messages')
+  @ApiOkResponse({ description: 'Latest room messages retrieved successfully' })
   getLatestRoomMessages(@Param('roomId') roomId: string) {
     return this.roomService.getLatestRoomMessages(roomId);
   }
